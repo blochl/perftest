@@ -3749,10 +3749,17 @@ static void write_bw_report_to_file(int out_json_fd, struct perftest_parameters 
 	else if (user_param->output == OUTPUT_MR)
 		dprintf(out_json_fd, "msgRate_avg: %lf,\n", msgRate_avg);
 	else if (user_param->raw_qos)
-		dprintf(out_json_fd, REPORT_FMT_QOS_JSON, size, sl, iters, bw_peak, bw_avg, msgRate_avg);
+		if (user_param->noPeak)
+			dprintf(out_json_fd, REPORT_FMT_QOS_JSON_NOPEAK, size, sl, iters, bw_avg, msgRate_avg);
+		else
+			dprintf(out_json_fd, REPORT_FMT_QOS_JSON, size, sl, iters, bw_peak, bw_avg, msgRate_avg);
 	else
-		dprintf(out_json_fd, inc_accuracy ? REPORT_FMT_EXT_JSON : REPORT_FMT_JSON,
-								   size, iters, bw_peak, bw_avg, msgRate_avg);
+		if (user_param->noPeak)
+			dprintf(out_json_fd, inc_accuracy ? REPORT_FMT_EXT_JSON_NOPEAK : REPORT_FMT_JSON_NOPEAK,
+									   size, iters, bw_avg, msgRate_avg);
+		else
+			dprintf(out_json_fd, inc_accuracy ? REPORT_FMT_EXT_JSON : REPORT_FMT_JSON,
+									   size, iters, bw_peak, bw_avg, msgRate_avg);
 
 	dprintf(out_json_fd, user_param->cpu_util_data.enable ?
 							REPORT_EXT_CPU_UTIL_JSON : REPORT_EXT_JSON, calc_cpu_util(user_param));
@@ -3816,11 +3823,20 @@ void print_full_bw_report (struct perftest_parameters *user_param, struct bw_rep
 	else if (user_param->output == OUTPUT_MR)
 		printf("%lf\n",msgRate_avg);
 	else if (user_param->raw_qos)
-		printf( REPORT_FMT_QOS, my_bw_rep->size, my_bw_rep->sl, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg);
+		if (user_param->noPeak)
+			printf( REPORT_FMT_QOS_NOPEAK, my_bw_rep->size, my_bw_rep->sl, my_bw_rep->iters, bw_avg, msgRate_avg);
+		else
+			printf( REPORT_FMT_QOS, my_bw_rep->size, my_bw_rep->sl, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg);
 	else if (user_param->report_per_port)
-		printf(REPORT_FMT_PER_PORT, my_bw_rep->size, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg, bw_avg_p1, msgRate_avg_p1, bw_avg_p2, msgRate_avg_p2);
+		if (user_param->noPeak)
+			printf(REPORT_FMT_PER_PORT_NOPEAK, my_bw_rep->size, my_bw_rep->iters, bw_avg, msgRate_avg, bw_avg_p1, msgRate_avg_p1, bw_avg_p2, msgRate_avg_p2);
+		else
+			printf(REPORT_FMT_PER_PORT, my_bw_rep->size, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg, bw_avg_p1, msgRate_avg_p1, bw_avg_p2, msgRate_avg_p2);
 	else
-		printf( inc_accuracy ? REPORT_FMT_EXT : REPORT_FMT, my_bw_rep->size, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg);
+		if (user_param->noPeak)
+			printf( inc_accuracy ? REPORT_FMT_EXT_NOPEAK : REPORT_FMT_NOPEAK, my_bw_rep->size, my_bw_rep->iters, bw_avg, msgRate_avg);
+		else
+			printf( inc_accuracy ? REPORT_FMT_EXT : REPORT_FMT, my_bw_rep->size, my_bw_rep->iters, bw_peak, bw_avg, msgRate_avg);
 	if (user_param->output == FULL_VERBOSITY) {
 		fflush(stdout);
 		fprintf(stdout, user_param->cpu_util_data.enable ? REPORT_EXT_CPU_UTIL : REPORT_EXT , calc_cpu_util(user_param));

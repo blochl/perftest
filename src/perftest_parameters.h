@@ -237,6 +237,14 @@
 
 #define REPORT_FMT_QOS_JSON "MsgSize: %lu,\nsl: %d,\nn_iterations: %lu,\nBW_peak: %.2lf,\nBW_average: %.2lf,\n MsgRate: %.6lf,\n"
 
+#define REPORT_FMT_NOPEAK " %-7lu    %-10" PRIu64 "     N/A                %-7.2lf		   %-7.6lf"
+#define REPORT_FMT_JSON_NOPEAK "MsgSize: %lu,\nn_iterations: %" PRIu64 ",\nBW_peak: \"N/A\",\nBW_average: %.2lf,\nMsgRate: %.6lf,\n"
+#define REPORT_FMT_EXT_NOPEAK " %-7lu    %" PRIu64 "         N/A                %-7.6lf            %-7.6lf"
+#define REPORT_FMT_EXT_JSON_NOPEAK "MsgSize: %lu,\nn_iterations: %" PRIu64 ",\nBW_peak: \"N/A\",\nBW_average: %.6lf,\nMsgRate: %.6lf,\n"
+#define REPORT_FMT_PER_PORT_NOPEAK     " %-7lu    %-10" PRIu64 "   N/A                %-7.2lf		   %-7.6lf        %-7.2lf            %-7.6lf              %-7.2lf            %-7.6lf"
+#define REPORT_FMT_QOS_NOPEAK " %-7lu    %d           %lu         N/A                %-7.2lf                  %-7.6lf\n"
+#define REPORT_FMT_QOS_JSON_NOPEAK "MsgSize: %lu,\nsl: %d,\nn_iterations: %lu,\nBW_peak: \"N/A\",\nBW_average: %.2lf,\n MsgRate: %.6lf,\n"
+
 /* Result print format for latency tests. */
 #define REPORT_FMT_LAT " %-7lu %" PRIu64 "          %-7.2f        %-7.2f      %-7.2f  	       %-7.2f     	%-7.2f		%-7.2f 		%-7.2f"
 
